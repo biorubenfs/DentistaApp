@@ -1,1 +1,5 @@
+#Todos las carpetas de node modules quedan ocultas
 node_modules
+
+#Las variables de entorno las ocultamos (Privacidad y Seguridad)
+.env
