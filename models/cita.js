@@ -20,4 +20,5 @@ Cita.init({
 }, {
   sequelize: database,
   modelName: 'Cita'
-})
+});
+
