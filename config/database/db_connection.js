@@ -3,9 +3,13 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+const dbname = "ClinicaDental";
+const username = "root";
+const password = "root";
+
 const connect = async () => {
-    const sequelize = new Sequelize(process.env.DATABASE, process.env.USERNAME, process.env.DATABASEPASSWORD, {
-        host: process.env.HOST,
+    const sequelize = new Sequelize(dbname, username, password, {
+        host: "127.0.0.1",
         dialect: 'mysql'
     });
     try {
@@ -15,5 +19,18 @@ const connect = async () => {
         console.error('Imposible conectarse con la base de datos:', error);
     }
 }
+
+// const connect = async () => {
+//     const sequelize = new Sequelize(process.env.DATABASE, process.env.USERNAME, process.env.DATABASEPASSWORD, {
+//         host: process.env.HOST,
+//         dialect: 'mysql'
+//     });
+//     try {
+//         await sequelize.authenticate();
+//         console.log('Todo se ha conectado correctamente');
+//     } catch (error) {
+//         console.error('Imposible conectarse con la base de datos:', error);
+//     }
+// }
 
 export default connect;
