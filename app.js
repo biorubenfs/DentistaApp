@@ -12,4 +12,4 @@ app.use(express.json());
 app.listen(process.env.PORT, () => console.log("Servidor Levantado"));
 
 app.use('/usuarios', rutaUsuario);
-app.use('/', rutaCitas);
+app.use('/citas', rutaCitas);
