@@ -1,6 +1,6 @@
 /* IMPORTAR LOS MODELOS */
 import database from "../config/database/db_connection.js";
-import { Cita, Usuario } from "../models/index.js";
+import { Usuario } from "../models/index.js";
 
 const controladorUsuario = {
     login: async (req, res) => {
