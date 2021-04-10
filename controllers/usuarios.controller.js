@@ -1,6 +1,6 @@
 /* IMPORTAR LOS MODELOS */
 import database from "../config/database/db_connection.js";
-import { Usuario } from "../models/index.js";
+import { Cita, Usuario } from "../models/index.js";
 
 const controladorUsuario = {
     login: async (req, res) => {
@@ -53,7 +53,7 @@ const controladorUsuario = {
         try {
 
             // Recuperamos el id de la cita de alguna manera.
-            const citaId = 7;
+            const citaId = 11;
             const cita = await Cita.findByPk(citaId);
             cita.estado = 1;
             await cita.save();
