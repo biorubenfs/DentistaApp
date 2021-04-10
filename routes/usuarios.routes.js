@@ -8,6 +8,8 @@ rutaUsuario.get("/logout", controladorUsuario.logout);
 
 rutaUsuario.get("/usuarios", controladorUsuario.findAll);
 rutaUsuario.get("/miscitas", controladorUsuario.misCitas);
+rutaUsuario.get("/citas", controladorUsuario.citasDisponibles);
+rutaUsuario.post("/citas", controladorUsuario.nuevaCita);
 
 
 export default rutaUsuario;
