@@ -10,6 +10,7 @@ rutaUsuario.get("/usuarios", controladorUsuario.findAll);
 rutaUsuario.get("/miscitas", controladorUsuario.misCitas);
 rutaUsuario.get("/citas", controladorUsuario.citasDisponibles);
 rutaUsuario.post("/citas", controladorUsuario.nuevaCita);
+rutaUsuario.post("/confirmacion", controladorUsuario.confirmarCita);
 
 
 export default rutaUsuario;

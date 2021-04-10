@@ -37,17 +37,32 @@ const controladorUsuario = {
             // Recuperar el id del usuario del token
             const usuarioId = 2;
 
-            // Recuperamos el id de la cita seleccionada y actualizamos los campos
+            // Recuperamos el id de la cita seleccionada y actualizamos los campos deseados
             const cita = await Cita.findByPk(7);
             cita.usuarioId = usuarioId;
             cita.estado = 0;
             await cita.save();
 
-            // const results = await Cita.update({ usuarioId: usuarioId });
             res.json(`Tu cita ha sido generada: ${cita.fecha}`);
 
         } catch (error) {
             res.status(400).send({ message: error.message });
+        }
+    },
+    confirmarCita: async (req, res) => {
+        try {
+
+            // Recuperamos el id de la cita de alguna manera.
+            const citaId = 7;
+            const cita = await Cita.findByPk(citaId);
+            cita.estado = 1;
+            await cita.save();
+
+            res.send(`Tu cita ${cita.fecha} ha sido confirmada`);
+
+        } catch (error) {
+            res.status(400).send({ message: error.message });
+
         }
     },
 
