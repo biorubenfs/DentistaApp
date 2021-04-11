@@ -37,9 +37,29 @@ También se generará un pequeño pool de registros de citas listos para ser usa
 
 ## Registro
 
-### Registro como paciente
+El endpoint de registro es diferente en función de si deseamos registrarnos como médicos o usuarios.
 
-### Registro como medico
+### Registro como paciente POST /usuario/registro
+
+Si deseas registrarte como usuario:
+
+```
+"nombre": testing
+"email": "test@email.com
+"password": *********
+```
+
+Si el registro se ha realizado de forma sataisfactoria recibirá un mensaje que así se lo indique.
+
+### Registro como médico POST /medico/registro
+
+Si desea registrarse como médico
+
+```
+"nombre": testing
+"email": "test@email.com
+"password": *********
+```
 
 ## Login
 
@@ -51,11 +71,25 @@ También se generará un pequeño pool de registros de citas listos para ser usa
 
 ### Endpoints de usuarios (pacientes)
 
-#### misCitas
+Una vez se haya registrado y logueado en la aplicación, estarán disponibles nuevos endpoints en donde podrá ver citas disponibles, pedir una cita, confirmar una cita ya solicitada, cancelar una cita y ver sus próximas citas.
 
-#### citasDisponibles
+#### misCitas GET /usuarios/miscitas
 
-#### nuevaCita
+El usuario podrá ver sus próximas citas, así como su estado:
+
+#### citasDisponibles GET /usuarios/citas
+
+El usuario podrá ver todas las citas disponibles, es decir, todas aquellas citas no asignadas a ningún usuario y potencialmente seleccionables por el usuario logeado.
+
+#### nuevaCita POST /usuarios/cita
+
+El usuario podrá solicitar una determina cita que esté disponible. Si no esta disponible, la aplicación le informará de elló. Para solicitar una cita, bastará con aportar el id de la cita elegida:
+
+```
+{
+    "citaId" : N
+}
+```
 
 #### confirmarCita
 
