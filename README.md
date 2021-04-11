@@ -1,5 +1,5 @@
 # Clinica Dental App
-
+[![Build Status][build-badge]][build]
 ## Set Up del proyecto
 
 ### Instalación de dependencias
@@ -63,11 +63,35 @@ Si desea registrarse como médico
 
 ## Login
 
+Para poder utilizar el login sin problemas deberá haberse registrado previamente. Una vez hecho enviara
+
+```
+{
+    "email": "ejemplo@ejemplo.com",
+    "password": "contraseña"
+}
+```
+
+Una vez hecho esto se le mostrará que se ha logueado con exito y se le habrá creado una `Cookie` con su `JWT`, esto mantendrá su sesión abierta hasta que haga un Logout
+
 ## Logout
+
+Una vez terminado el paso del `Login`, si quiere marcharse le recomendamos que cierre la sesion para ello accedera a `/usuarios/logout` o `/medicos/logout` dependiendo de como se haya registrado. Una vez accede a esa ruta (METODO GET). Su `Cookie` que es lo ue mantenía su sesion abierta, se borrará y deberá hacer `Login` de nuevo. 
 
 ## Obtener token
 
+Si quiere ver cual es su token deberá acceder a la `cookie` creada después de loguearse
+
 ## Endpoints principales
+
+Los endpoints principales son los siguientes:
+
+```
+127.0.0.1/usuarios
+127.0.0.1/medicos
+127.0.0.1/registros
+```
+La dirección 127.0.0.1 es el localhost, esas rutas por si solas no tienen funcionalidad, si no que son las principales, que dirigen a las rutas secundarias.
 
 ### Endpoints de usuarios (pacientes)
 
