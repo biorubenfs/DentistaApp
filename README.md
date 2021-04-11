@@ -21,6 +21,8 @@ Para crear las tablas, debemos ejecutar las migraciones correspondientes:
 ```
 sequelize db:migrate
 ```
+Deberia quedar algo con una estructura similar a esta: 
+![alt text](https://imgur.com/a/WF8ZbwF)
 
 ### Generación de registros en la base de datos
 
