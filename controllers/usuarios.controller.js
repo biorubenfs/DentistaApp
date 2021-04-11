@@ -82,8 +82,23 @@ const controladorUsuario = {
 
         }
     },
+    cancelarCita: async (req, res) => {
+        
+        try {
+            const citaId = req.body.citaId;
+            const cita = await Cita.findByPk(citaId);
+            cita.estado = 0;
+            cita.usuarioId = null;
+            await cita.save();
 
+            res.send(`Tu cita ${cita.fecha} ha sido cancelada`);
 
+        } catch (error) {
+            res.status(400).send({ message: error.message });
+
+        }
+        
+    },
     // Este metodo solo debería estar disponible para administradores
     findAll: async (req, res) => {
         try {

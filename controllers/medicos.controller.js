@@ -28,6 +28,10 @@ const controladorMedicos = {
         }
     },
 
+    cancelarCita: async (req, res)=> {
+
+    },
+
     findAll: async (req, res) => {
 
         try {
