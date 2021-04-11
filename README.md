@@ -23,7 +23,7 @@ sequelize db:migrate
 ```
 Deberia quedar algo con una estructura similar a esta: 
 <br><br>
-<img src="https://i.imgur.com/osUbKJe.png" width="200"></img>
+<img src="https://i.imgur.com/osUbKJe.png" width="800"></img>
 
 ### Generación de registros en la base de datos
 
