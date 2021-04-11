@@ -29,7 +29,7 @@ const controladorUsuario = {
 
         try{
 
-            const email = jwt.decode(req.headers.token, process.env.TOKEN);
+            const email = jwt.decode(req.cookies.jwt, process.env.TOKEN);
             const user = await Usuario.findOne({ where: { email: email }})
             user.statusLog = 0;
             res.clearCookie('jwt')
@@ -45,7 +45,7 @@ const controladorUsuario = {
         // Recuperar los datos del usuario a través del token.
         // De momento harcodeamos un id de usuario.
         try {
-            const token = req.headers.token;
+            const token = req.cookies.jwt;
             //El payload es el email
             const payload = jwt.verify(token, process.env.TOKEN);
 
@@ -79,7 +79,7 @@ const controladorUsuario = {
     nuevaCita: async (req, res) => {
         try {
 
-            const token = req.headers.token;
+            const token = req.cookies.jwt;
             //El payload es el email
             const payload = jwt.verify(token, process.env.TOKEN);
             const email = payload;
@@ -109,7 +109,7 @@ const controladorUsuario = {
     confirmarCita: async (req, res) => {
         try {
 
-            const token = req.headers.token;
+            const token = req.cookies.jwt;
             //El payload es el email
             const payload = jwt.verify(token, process.env.TOKEN);
             const email = payload;
