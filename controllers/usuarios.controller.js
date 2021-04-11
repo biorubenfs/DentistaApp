@@ -9,17 +9,17 @@ const controladorUsuario = {
 
         const { email, password } = req.body;
         try {
-            const userSearch = await Usuario.findOne( { where: { email: email }});
+            const userSearch = await Usuario.findOne({ where: { email: email } });
             const verification = await bcrypt.compare(password, userSearch.password);
 
-            if(verification){
+            if (verification) {
                 const token = jwt.sign(email, process.env.TOKEN);
-                res.cookie('jwt', token, {httpOnly: true});
+                res.cookie('jwt', token, { httpOnly: true });
                 res.status(200).send('Se ha logueado con exito!');
             } else {
                 res.status(403).send('La contraseña estan mal!');
             }
-        } catch (e){
+        } catch (e) {
             res.status(404).send(e)
         }
 
@@ -30,10 +30,22 @@ const controladorUsuario = {
         // Recuperar los datos del usuario a través del token.
         // De momento harcodeamos un id de usuario.
         try {
-            const usuarioId = 2;    // Tendrá que coger el id de usuario por el token
+            const token = req.headers.token;
+            //El payload es el email
+            const payload = jwt.verify(token, process.env.TOKEN);
 
-            const results = await database.query(`SELECT * FROM Cita WHERE usuarioId = ${usuarioId}`, { type: database.QueryTypes.SELECT })
-            res.json(results);
+            const email = payload;
+
+            const usuario = await Usuario.findOne({
+                where: { email: email }
+            })
+
+            const citas = await Cita.findAll({
+                where: { usuarioId: usuario.id }
+            });
+
+            res.send(citas);
+
         } catch (error) {
             res.status(400).send({ message: error.message });
         }
