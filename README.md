@@ -1,5 +1,5 @@
 # Clinica Dental App
-[![Build Status][build-badge]][build]
+
 ## Set Up del proyecto
 
 ### Instalación de dependencias
@@ -120,4 +120,20 @@ El usuario podrá solicitar una determina cita que esté disponible. Si no esta 
 
 #### confirmarCita
 
+Para confirmar la cita, deberas saber que cita tienes, una vez que lo sepas solo tendras que aportar la id de esta manera:
+
+```
+{
+    "citaId": (Numero de cita sin parentesis)
+}
+```
+
 #### cancelarCita
+
+De la misma manera que confirmamos podremos cancelar una cita, deberemos proporcionar el Id de la cita:
+
+```
+{
+    "citaId": (Numero de cita sin parentesis)
+}
+```
