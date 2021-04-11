@@ -1,21 +1,28 @@
 'use strict';
+const bcrypt = require('bcrypt');
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
+
+    const hashTemp = 10;
+    const commonPassword = "medico";
+
+    const passwordHash = await bcrypt.hash(commonPassword, hashTemp);
+
     await queryInterface.bulkInsert('Medicos', [{
       nombre: "ernesto",
       email: "ernesto@dentalmd.com",
-      password: "1234"
+      password: passwordHash
     },
     {
       nombre: "dolores",
       email: "dolores@dentalmd.com",
-      password: "1234"
+      password: passwordHash
     },
     {
       nombre: "maria",
       email: "maria@dentalmd.com",
-      password: "1234"
+      password: passwordHash
     }], {})
   },
 
