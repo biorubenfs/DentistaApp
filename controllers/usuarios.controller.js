@@ -1,13 +1,30 @@
 /* IMPORTAR LOS MODELOS */
 import database from "../config/database/db_connection.js";
 import { Cita, Usuario } from "../models/index.js";
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 
 const controladorUsuario = {
     login: async (req, res) => {
 
+        const { email, password } = req.body;
+        try {
+            const userSearch = await Usuario.findOne( { where: { email: email }});
+            const verification = await bcrypt.compare(password, userSearch.password);
+
+            if(verification){
+                const token = jwt.sign(email, process.env.TOKEN);
+                res.cookie('jwt', token, {httpOnly: true});
+                res.status(200).send('Se ha logueado con exito!');
+            } else {
+                res.status(403).send('La contraseña estan mal!');
+            }
+        } catch (e){
+            res.status(404).send(e)
+        }
+
     },
     logout: async (req, res) => {
-
     },
     misCitas: async (req, res) => {
         // Recuperar los datos del usuario a través del token.
