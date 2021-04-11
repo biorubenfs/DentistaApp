@@ -1,17 +1,19 @@
 import { Cita, Medico } from "../models/index.js";
+import jwt from 'jsonwebtoken';
 
 /* IMPORTAR LOS MODELOS */
 const controladorMedicos = {
 
     crearCita: async (req, res) => {
         try {
-            // Sacar el id del médico
-
+            const token = req.cookies.jwt;
+            const email = jwt.decode(token, process.env.TOKEN);
+            const medico = await Medico.findOne({ where: { email: email }});
+            
             // Datos de la cita. La fecha es la de hoy a la espera de implementar un mejor sistema
-            // El id del médico habrá que cogerlo del token
             const fecha = new Date();
             const estado = 0;
-            const medicoId = 2;
+            const medicoId = medico.id;
 
             const nuevaCitaDisponible = {
                 fecha: fecha,
