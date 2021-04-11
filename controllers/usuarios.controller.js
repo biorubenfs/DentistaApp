@@ -63,16 +63,29 @@ const controladorUsuario = {
 
     nuevaCita: async (req, res) => {
         try {
-            // Recuperar el id del usuario del token
-            const usuarioId = 2;
+
+            const token = req.headers.token;
+            //El payload es el email
+            const payload = jwt.verify(token, process.env.TOKEN);
+            const email = payload;
+
+            const usuario = await Usuario.findOne({
+                where: { email: email }
+            })
+
+            const citaId = req.body.citaId;
 
             // Recuperamos el id de la cita seleccionada y actualizamos los campos deseados
-            const cita = await Cita.findByPk(7);
-            cita.usuarioId = usuarioId;
+            const cita = await Cita.findByPk(citaId);
+
+            if (!cita || cita.usuarioId !== null) {
+                return res.send("La cita seleccionada no está disponible");
+            }
+            cita.usuarioId = usuario.id;
             cita.estado = 0;
             await cita.save();
 
-            res.json(`Tu cita ha sido generada: ${cita.fecha}`);
+            res.send(`Cita seleccionada: ${cita.fecha}`);
 
         } catch (error) {
             res.status(400).send({ message: error.message });

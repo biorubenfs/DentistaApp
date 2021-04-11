@@ -7,11 +7,11 @@ const rutaUsuario = Router();
 rutaUsuario.post("/login", controladorUsuario.login);
 rutaUsuario.get("/logout", controladorUsuario.logout);
 
-rutaUsuario.get("/usuarios", controladorUsuario.findAll);
+rutaUsuario.get("/usuarios", controladorUsuario.findAll); // Esto lo podremos borrar
 rutaUsuario.post("/miscitas", authMiddleware, controladorUsuario.misCitas);
-rutaUsuario.get("/citas", controladorUsuario.citasDisponibles);
-rutaUsuario.post("/citas", controladorUsuario.nuevaCita);
-rutaUsuario.post("/confirmacion", controladorUsuario.confirmarCita);
+rutaUsuario.get("/citas", authMiddleware, controladorUsuario.citasDisponibles);
+rutaUsuario.post("/cita", authMiddleware, controladorUsuario.nuevaCita);
+rutaUsuario.post("/confirmacion", authMiddleware, controladorUsuario.confirmarCita);
 
 
 export default rutaUsuario;
