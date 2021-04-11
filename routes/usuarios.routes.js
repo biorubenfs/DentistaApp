@@ -11,7 +11,7 @@ rutaUsuario.get("/miscitas", controladorUsuario.misCitas);
 rutaUsuario.get("/citas", controladorUsuario.citasDisponibles);
 rutaUsuario.post("/citas", controladorUsuario.nuevaCita);
 rutaUsuario.post("/confirmacion", controladorUsuario.confirmarCita);
-rutaUsuario.post("/cancelacion", controladorUsuario.cancelarCita);
+rutaUsuario.delete("/cancelar", controladorUsuario.cancelarCita);
 
 
 export default rutaUsuario;

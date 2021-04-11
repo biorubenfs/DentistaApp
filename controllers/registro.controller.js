@@ -11,12 +11,19 @@ const controladorRegistro = {
         const hashTemp = 10;
 
         try {
-            const passwordHash = await bcrypt.hash(password, hashTemp);
-            const nuevoUsuario = { nombre: nombre, email: email, password: passwordHash, statusLog: statusLog }
+            const search = await Usuario.findAll({ where: { email: email}});
+            if(search){
 
-            await Usuario.create(nuevoUsuario);
+                res.send('El email proporcionado ya existe');
 
-            res.send(`Usuario registrado: ${nuevoUsuario.nombre}`);
+            }else {
+                const passwordHash = await bcrypt.hash(password, hashTemp);
+                const nuevoUsuario = { nombre: nombre, email: email, password: passwordHash, statusLog: statusLog }
+
+                await Usuario.create(nuevoUsuario);
+
+                res.send(`Usuario registrado: ${nuevoUsuario.nombre}`);
+            }
 
         } catch (error) {
             res.status(400).send({ message: error.message });
@@ -27,16 +34,23 @@ const controladorRegistro = {
         const nombre = req.body.nombre;
         const email = req.body.email;
         const password = req.body.password;
-        const statusLog = 1;
+        const statusLog = 0;
         const hashTemp = 10;
 
         try {
-            const passwordHash = await bcrypt.hash(password, hashTemp);
-            const nuevoMedico = { nombre: nombre, email: email, password: passwordHash, statusLog: statusLog }
+            const search = await Medico.findAll({ where: { email: email}});
+            if(search){
 
-            await Medico.create(nuevoMedico);
+                res.send('El email proporcionado ya existe');
 
-            res.send(`Bienvenido Dr. ${nuevoMedico.nombre}`);
+            }else {
+                const passwordHash = await bcrypt.hash(password, hashTemp);
+                const nuevoMedico = { nombre: nombre, email: email, password: passwordHash, statusLog: statusLog }
+
+                await Medico.create(nuevoMedico);
+
+                res.send(`Bienvenido Dr. ${nuevoMedico.nombre}`);
+            }
 
         } catch (error) {
             res.status(400).send({ message: error.message });

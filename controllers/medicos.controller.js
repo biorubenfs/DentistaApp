@@ -29,7 +29,16 @@ const controladorMedicos = {
     },
 
     cancelarCita: async (req, res)=> {
+        const citaId = req.body.citaId;
+        try {
+            const cita = await Cita.findByPk(citaId);
+            cita.destroy();
 
+            res.send(`Tu cita ${cita.fecha} ha sido cancelada`);
+
+        } catch (e) {
+            res.status(400).send({ message: e.message });
+        }
     },
 
     findAll: async (req, res) => {

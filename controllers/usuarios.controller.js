@@ -3,6 +3,7 @@ import database from "../config/database/db_connection.js";
 import { Cita, Usuario } from "../models/index.js";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import cookieParser, { signedCookies } from 'cookie-parser';
 
 const controladorUsuario = {
     login: async (req, res) => {
@@ -14,7 +15,7 @@ const controladorUsuario = {
 
             if(verification){
                 const token = jwt.sign(email, process.env.TOKEN);
-                res.cookie('jwt', token, {httpOnly: true});
+                res.cookie('jwt', token, {httpOnly: true, maxAge: 18000000});
                 res.status(200).send('Se ha logueado con exito!');
             } else {
                 res.status(403).send('La contraseña estan mal!');
@@ -25,6 +26,20 @@ const controladorUsuario = {
 
     },
     logout: async (req, res) => {
+
+        try{
+
+            const email = jwt.decode(req.headers.token, process.env.TOKEN);
+            const user = await Usuario.findOne({ where: { email: email }})
+            user.statusLog = 0;
+            res.clearCookie('jwt')
+            res.send(`Hasta pronto ${user.nombre}`);
+
+        } catch (e){
+            res.status(404).send({e: e.message});
+        }
+       
+
     },
     misCitas: async (req, res) => {
         // Recuperar los datos del usuario a través del token.
