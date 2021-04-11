@@ -94,8 +94,17 @@ const controladorUsuario = {
     confirmarCita: async (req, res) => {
         try {
 
+            const token = req.headers.token;
+            //El payload es el email
+            const payload = jwt.verify(token, process.env.TOKEN);
+            const email = payload;
+
+            const usuario = await Usuario.findOne({
+                where: { email: email }
+            })
+
             // Recuperamos el id de la cita de alguna manera.
-            const citaId = 11;
+            const citaId = req.body.citaId;
             const cita = await Cita.findByPk(citaId);
             cita.estado = 1;
             await cita.save();
