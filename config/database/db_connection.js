@@ -5,7 +5,7 @@ dotenv.config();
 
 const dbname = "ClinicaDental";
 const username = "root";
-const password = "root1234";
+const password = "root";
 
 const database = new Sequelize(dbname, username, password, {
     host: "127.0.0.1",
