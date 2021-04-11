@@ -4,6 +4,47 @@ import jwt from 'jsonwebtoken';
 /* IMPORTAR LOS MODELOS */
 const controladorMedicos = {
 
+    login: async (req, res) => {
+
+        const { email, password } = req.body;
+        try {
+            const busquedaMedico = await Medico.findOne({ where: { email: email } });
+
+            if (!busquedaMedico) {
+                return res.send("Tienes que registrarse primero");
+            }
+
+            const verification = await bcrypt.compare(password, busquedaMedico.password);
+
+            if (verification) {
+                const token = jwt.sign(email, process.env.TOKEN);
+                res.cookie('jwt', token, { httpOnly: true, maxAge: 18000000 });
+                res.status(200).send('Se ha logueado con exito!');
+            } else {
+                res.status(403).send('La contraseña estan mal!');
+            }
+        } catch (e) {
+            res.status(404).send(e)
+        }
+
+    },
+    logout: async (req, res) => {
+
+        try {
+
+            const email = jwt.decode(req.cookies.jwt, process.env.TOKEN);
+            const medico = await Medico.findOne({ where: { email: email } })
+            medico.statusLog = 0;
+            res.clearCookie('jwt')
+            res.send(`Hasta pronto ${medico.nombre}`);
+
+        } catch (e) {
+            res.status(404).send({ e: e.message });
+        }
+
+
+    },
+
     crearCita: async (req, res) => {
         try {
             const token = req.cookies.jwt;
