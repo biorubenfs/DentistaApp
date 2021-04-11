@@ -11,11 +11,16 @@ const controladorUsuario = {
         const { email, password } = req.body;
         try {
             const userSearch = await Usuario.findOne({ where: { email: email } });
+
+            if (!userSearch) {
+                return res.send("Tienes que registrarse primero");
+            }
+
             const verification = await bcrypt.compare(password, userSearch.password);
 
             if (verification) {
                 const token = jwt.sign(email, process.env.TOKEN);
-                res.cookie('jwt', token, {httpOnly: true, maxAge: 18000000});
+                res.cookie('jwt', token, { httpOnly: true, maxAge: 18000000 });
                 res.status(200).send('Se ha logueado con exito!');
             } else {
                 res.status(403).send('La contraseña estan mal!');
@@ -27,29 +32,24 @@ const controladorUsuario = {
     },
     logout: async (req, res) => {
 
-        try{
+        try {
 
             const email = jwt.decode(req.cookies.jwt, process.env.TOKEN);
-            const user = await Usuario.findOne({ where: { email: email }})
+            const user = await Usuario.findOne({ where: { email: email } })
             user.statusLog = 0;
             res.clearCookie('jwt')
             res.send(`Hasta pronto ${user.nombre}`);
 
-        } catch (e){
-            res.status(404).send({e: e.message});
+        } catch (e) {
+            res.status(404).send({ e: e.message });
         }
-       
+
 
     },
     misCitas: async (req, res) => {
-        // Recuperar los datos del usuario a través del token.
-        // De momento harcodeamos un id de usuario.
-        try {
-            const token = req.cookies.jwt;
-            //El payload es el email
-            const payload = jwt.verify(token, process.env.TOKEN);
 
-            const email = payload;
+        try {
+            const email = jwt.decode(req.cookies.jwt, process.env.TOKEN);
 
             const usuario = await Usuario.findOne({
                 where: { email: email }
@@ -78,11 +78,7 @@ const controladorUsuario = {
 
     nuevaCita: async (req, res) => {
         try {
-
-            const token = req.cookies.jwt;
-            //El payload es el email
-            const payload = jwt.verify(token, process.env.TOKEN);
-            const email = payload;
+            const email = jwt.decode(req.cookies.jwt, process.env.TOKEN);
 
             const usuario = await Usuario.findOne({
                 where: { email: email }
@@ -108,11 +104,7 @@ const controladorUsuario = {
     },
     confirmarCita: async (req, res) => {
         try {
-
-            const token = req.cookies.jwt;
-            //El payload es el email
-            const payload = jwt.verify(token, process.env.TOKEN);
-            const email = payload;
+            const email = jwt.decode(req.cookies.jwt, process.env.TOKEN);
 
             const usuario = await Usuario.findOne({
                 where: { email: email }
@@ -128,11 +120,10 @@ const controladorUsuario = {
 
         } catch (error) {
             res.status(400).send({ message: error.message });
-
         }
     },
     cancelarCita: async (req, res) => {
-        
+
         try {
             const citaId = req.body.citaId;
             const cita = await Cita.findByPk(citaId);
@@ -144,9 +135,8 @@ const controladorUsuario = {
 
         } catch (error) {
             res.status(400).send({ message: error.message });
-
         }
-        
+
     },
     // Este metodo solo debería estar disponible para administradores
     findAll: async (req, res) => {

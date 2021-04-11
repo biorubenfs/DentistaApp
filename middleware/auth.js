@@ -9,7 +9,7 @@ const authMiddleware = async (req, res, next) => {
         const token = req.cookies.jwt;
         jwt.verify(token, process.env.TOKEN);
         next();
-    }catch(e) { res.status(401).send('Tienes que loguearte') }
+    } catch (e) { res.status(401).send('Tienes que loguearte') }
 }
 
 export default authMiddleware;
