@@ -1,17 +1,60 @@
 import { Cita, Medico } from "../models/index.js";
+import jwt from 'jsonwebtoken';
 
 /* IMPORTAR LOS MODELOS */
 const controladorMedicos = {
 
+    login: async (req, res) => {
+
+        const { email, password } = req.body;
+        try {
+            const busquedaMedico = await Medico.findOne({ where: { email: email } });
+
+            if (!busquedaMedico) {
+                return res.send("Tienes que registrarse primero");
+            }
+
+            const verification = await bcrypt.compare(password, busquedaMedico.password);
+
+            if (verification) {
+                const token = jwt.sign(email, process.env.TOKEN);
+                res.cookie('jwt', token, { httpOnly: true, maxAge: 18000000 });
+                res.status(200).send('Se ha logueado con exito!');
+            } else {
+                res.status(403).send('La contraseña estan mal!');
+            }
+        } catch (e) {
+            res.status(404).send(e)
+        }
+
+    },
+    logout: async (req, res) => {
+
+        try {
+
+            const email = jwt.decode(req.cookies.jwt, process.env.TOKEN);
+            const medico = await Medico.findOne({ where: { email: email } })
+            medico.statusLog = 0;
+            res.clearCookie('jwt')
+            res.send(`Hasta pronto ${medico.nombre}`);
+
+        } catch (e) {
+            res.status(404).send({ e: e.message });
+        }
+
+
+    },
+
     crearCita: async (req, res) => {
         try {
-            // Sacar el id del médico
-
+            const token = req.cookies.jwt;
+            const email = jwt.decode(token, process.env.TOKEN);
+            const medico = await Medico.findOne({ where: { email: email }});
+            
             // Datos de la cita. La fecha es la de hoy a la espera de implementar un mejor sistema
-            // El id del médico habrá que cogerlo del token
             const fecha = new Date();
             const estado = 0;
-            const medicoId = 2;
+            const medicoId = medico.id;
 
             const nuevaCitaDisponible = {
                 fecha: fecha,

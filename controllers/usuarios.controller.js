@@ -36,7 +36,6 @@ const controladorUsuario = {
 
             const email = jwt.decode(req.cookies.jwt, process.env.TOKEN);
             const user = await Usuario.findOne({ where: { email: email } })
-            user.statusLog = 0;
             res.clearCookie('jwt')
             res.send(`Hasta pronto ${user.nombre}`);
 

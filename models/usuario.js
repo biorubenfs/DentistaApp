@@ -8,8 +8,7 @@ export default class Usuario extends Model { };
 Usuario.init({
   nombre: DataTypes.STRING,
   email: DataTypes.STRING,
-  password: DataTypes.STRING,
-  statusLog: DataTypes.BOOLEAN
+  password: DataTypes.STRING
 }, {
   sequelize: database,
   modelName: 'Usuario'

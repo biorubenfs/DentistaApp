@@ -7,7 +7,6 @@ const controladorRegistro = {
         const nombre = req.body.nombre;
         const email = req.body.email;
         const password = req.body.password;
-        const statusLog = 0;
         const hashTemp = 10;
 
         try {
@@ -18,7 +17,7 @@ const controladorRegistro = {
 
             }else {
                 const passwordHash = await bcrypt.hash(password, hashTemp);
-                const nuevoUsuario = { nombre: nombre, email: email, password: passwordHash, statusLog: statusLog }
+                const nuevoUsuario = { nombre: nombre, email: email, password: passwordHash }
 
                 await Usuario.create(nuevoUsuario);
 
@@ -34,7 +33,6 @@ const controladorRegistro = {
         const nombre = req.body.nombre;
         const email = req.body.email;
         const password = req.body.password;
-        const statusLog = 0;
         const hashTemp = 10;
 
         try {
@@ -45,7 +43,7 @@ const controladorRegistro = {
 
             }else {
                 const passwordHash = await bcrypt.hash(password, hashTemp);
-                const nuevoMedico = { nombre: nombre, email: email, password: passwordHash, statusLog: statusLog }
+                const nuevoMedico = { nombre: nombre, email: email, password: passwordHash }
 
                 await Medico.create(nuevoMedico);
 
