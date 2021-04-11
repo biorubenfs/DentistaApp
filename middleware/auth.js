@@ -1,19 +1,15 @@
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
+import { Usuario } from '../models/index.js';
 
 dotenv.config();
 
-const authMiddleware = (req, res, next) => {
+const authMiddleware = async (req, res, next) => {
     try {
-        /*
-        jwt.verify(req.cookie.token, process.env.JWTOKEN);
+        const token = req.cookies.jwt;
+        jwt.verify(token, process.env.TOKEN);
         next();
-        Lo recogemos del header puesto que no tenemos frontal 
-        y lo añadimos automaticamente en el postman;
-        */
-        jwt.verify(req.headers.token, process.env.TOKEN);
-        next();
-    } catch (e) { res.sendStatus(401) }
+    }catch(e) { res.status(401).send('Tienes que loguearte') }
 }
 
 export default authMiddleware;
