@@ -1,5 +1,6 @@
 import { Cita, Medico } from "../models/index.js";
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 
 /* IMPORTAR LOS MODELOS */
 const controladorMedicos = {
@@ -33,9 +34,10 @@ const controladorMedicos = {
         try {
 
             const email = jwt.decode(req.cookies.jwt, process.env.TOKEN);
-            const medico = await Medico.findOne({ where: { email: email } });
-            res.clearCookie('jwt');
-            res.send(`Hasta pronto ${medico.nombre}`);
+            const medico = await Medico.findOne({ where: { email: email } })
+            medico.statusLog = 0;
+            res.clearCookie('jwt')
+            res.send(`Hasta pronto Dr. ${medico.nombre}`);
 
         } catch (e) {
             res.status(404).send({ e: e.message });
@@ -48,10 +50,10 @@ const controladorMedicos = {
         try {
             const token = req.cookies.jwt;
             const email = jwt.decode(token, process.env.TOKEN);
-            const medico = await Medico.findOne({ where: { email: email }});
-            
+            const medico = await Medico.findOne({ where: { email: email } });
+
             // Datos de la cita. La fecha es la de hoy a la espera de implementar un mejor sistema
-            const fecha = new Date();
+            const fecha = req.body.fecha;
             const estado = 0;
             const medicoId = medico.id;
 
@@ -70,7 +72,7 @@ const controladorMedicos = {
         }
     },
 
-    cancelarCita: async (req, res)=> {
+    cancelarCita: async (req, res) => {
         const citaId = req.body.citaId;
         try {
             const cita = await Cita.findByPk(citaId);
