@@ -33,9 +33,8 @@ const controladorMedicos = {
         try {
 
             const email = jwt.decode(req.cookies.jwt, process.env.TOKEN);
-            const medico = await Medico.findOne({ where: { email: email } })
-            medico.statusLog = 0;
-            res.clearCookie('jwt')
+            const medico = await Medico.findOne({ where: { email: email } });
+            res.clearCookie('jwt');
             res.send(`Hasta pronto ${medico.nombre}`);
 
         } catch (e) {
