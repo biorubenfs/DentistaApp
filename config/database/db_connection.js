@@ -7,17 +7,16 @@ const dbname = "ClinicaDental";
 const username = "root";
 const password = "root";
 
-const connect = async () => {
-    const sequelize = new Sequelize(dbname, username, password, {
-        host: "127.0.0.1",
-        dialect: 'mysql'
-    });
-    try {
-        await sequelize.authenticate();
-        console.log('Todo se ha conectado correctamente');
-    } catch (error) {
-        console.error('Imposible conectarse con la base de datos:', error);
-    }
+const database = new Sequelize(dbname, username, password, {
+    host: "127.0.0.1",
+    dialect: 'mysql'
+});
+
+try {
+    await database.authenticate();
+    console.log('Todo se ha conectado correctamente');
+} catch (error) {
+    console.error('Imposible conectarse con la base de datos:', error);
 }
 
 // const connect = async () => {
@@ -33,4 +32,4 @@ const connect = async () => {
 //     }
 // }
 
-export default connect;
+export default database;

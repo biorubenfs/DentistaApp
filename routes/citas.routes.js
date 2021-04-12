@@ -6,4 +6,6 @@ const rutaCitas = Router();
 rutaCitas.post('/reserva', controladorCitas.crear);
 rutaCitas.get('/miscitas', controladorCitas.miscitas);
 
+rutaCitas.get('/citas', controladorCitas.findAll);
+
 export default rutaCitas;

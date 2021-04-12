@@ -14,13 +14,29 @@ module.exports = {
       estado: {
         type: Sequelize.BOOLEAN
       },
+      usuarioId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Usuarios',
+          key: 'id'
+        }
+      },
+      medicoId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Medicos',
+          key: 'id'
+        }
+      },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
     });
   },
