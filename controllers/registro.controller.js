@@ -10,12 +10,12 @@ const controladorRegistro = {
         const hashTemp = 10;
 
         try {
-            const search = await Usuario.findAll({ where: { email: email}});
-            if(search){
+            const search = await Usuario.findOne({ where: { email: email } });
+            if (search) {
 
                 res.send('El email proporcionado ya existe');
 
-            }else {
+            } else {
                 const passwordHash = await bcrypt.hash(password, hashTemp);
                 const nuevoUsuario = { nombre: nombre, email: email, password: passwordHash }
 
@@ -36,12 +36,12 @@ const controladorRegistro = {
         const hashTemp = 10;
 
         try {
-            const search = await Medico.findAll({ where: { email: email}});
-            if(search){
+            const search = await Medico.findOne({ where: { email: email } });
+            if (search) {
 
                 res.send('El email proporcionado ya existe');
 
-            }else {
+            } else {
                 const passwordHash = await bcrypt.hash(password, hashTemp);
                 const nuevoMedico = { nombre: nombre, email: email, password: passwordHash }
 
